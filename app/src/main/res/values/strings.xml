@@ -12,35 +12,118 @@
     <string name="workspace_label">Workspace</string>
     <string name="workspace_created">Created : %1$s</string>
     <string name="new_project">New Project</string>
-    <string name="upcoming">UPCOMING</string>
+    <string name="search_projects">Search projects…</string>
+    <string name="showing_of_projects">Showing %1$d of %2$d projects</string>
+    <string name="no_projects_yet">No projects yet</string>
+    <string name="no_projects_match">No projects match your search</string>
     <string name="invite">Invite</string>
-    <string name="task_progress">%1$d/%2$d</string>
-    <string name="attachment_count">%1$d Attachment</string>
-    <string name="comment_count">%1$d Comment</string>
+    <string name="task_progress">%1$d/%2$d tasks</string>
+    <string name="percent_value">%1$d%%</string>
 
-    <!-- New project dialog -->
-    <string name="label_project_name">Project Name</string>
-    <string name="label_project_tag">Project Tag</string>
-    <string name="label_attachment">Attachment</string>
-    <string name="label_project_description">Project Description</string>
-    <string name="hint_project_name">Login api</string>
-    <string name="hint_project_tag">Backend</string>
-    <string name="hint_attachment">Add file or photo</string>
-    <string name="hint_project_description">What is this project about?</string>
-    <string name="add_project">Add Project</string>
-    <string name="error_name_required">Project name is required</string>
-    <string name="error_tag_required">Project tag is required</string>
-
-    <!-- Project screen -->
+    <!-- Project header and tabs -->
     <string name="back">Back</string>
-    <string name="todays_task">Today\'s Task</string>
-    <string name="add_task">Add Task</string>
-    <string name="attachment_icon">Attachment</string>
+    <string name="tab_with_count">%1$s (%2$d)</string>
 
-    <!-- Add task dialog -->
+    <!-- Overview -->
+    <string name="brief_and_scope">BRIEF &amp; SCOPE</string>
+    <string name="edit_project">Edit Project</string>
+    <string name="project_progress">PROJECT PROGRESS</string>
+    <string name="completed_of_tasks">%1$d of %2$d tasks completed</string>
+    <string name="task_breakdown">TASK BREAKDOWN</string>
+    <string name="tap_card_hint">Tap a card to filter tasks</string>
+    <string name="status_to_do">To Do</string>
+    <string name="status_in_progress">In Progress</string>
+    <string name="status_done">Done</string>
+    <string name="status_overdue">Overdue</string>
+    <string name="label_tasks">tasks</string>
+    <string name="label_completed">completed</string>
+    <string name="label_attention">attention</string>
+    <string name="quick_links">QUICK LINKS</string>
+    <string name="attachments">Attachments</string>
+    <string name="discussion">Discussion</string>
+    <string name="attachments_summary">%1$d files • %2$s</string>
+    <string name="add_task">Add Task</string>
+
+    <!-- Tasks -->
+    <string name="search_tasks">Search tasks in project…</string>
+    <string name="filter_status">Status: %1$s</string>
+    <string name="filter_priority">Priority: %1$s</string>
+    <string name="filter_date">Date: %1$s</string>
+    <string name="filter_sort">Sort: %1$s</string>
+    <string name="all_statuses">All statuses</string>
+    <string name="all_priorities">All priorities</string>
+    <string name="showing_tasks">Showing %1$d of %2$d tasks</string>
+    <string name="reset_filters">Reset filters</string>
+    <string name="no_tasks_yet">No tasks yet</string>
+    <string name="no_tasks_match">No tasks match these filters</string>
+    <string name="overdue_badge">OVERDUE</string>
+    <string name="no_due_date">No due date</string>
+    <string name="due_today">Due today</string>
+
+    <!-- Task dialog -->
     <string name="add_new_task">Add New Task</string>
-    <string name="hint_task_description">Describe the task (max 500 characters)</string>
-    <string name="save_task">Save Task</string>
+    <string name="edit_task">Edit Task</string>
+    <string name="task_description_hint">What needs to be done?</string>
+    <string name="char_counter">%1$d/%2$d</string>
+    <string name="label_priority">Priority</string>
+    <string name="label_status">Status</string>
+    <string name="label_due_date">Due date</string>
+    <string name="clear_date">Clear</string>
+    <string name="save_task">Add Task</string>
+    <string name="delete_task">Delete task?</string>
+    <string name="delete_task_message">This removes the task from the project.</string>
+    <string name="delete">Delete</string>
     <string name="error_task_required">Task description is required</string>
     <string name="error_task_too_long">Maximum %1$d characters allowed</string>
+
+    <!-- Project dialog -->
+    <string name="new_project_title">New Project</string>
+    <string name="label_project_name">Project Name</string>
+    <string name="label_project_tag">Project Tag</string>
+    <string name="label_project_description">Project Description</string>
+    <string name="label_attachment">Attachment (optional)</string>
+    <string name="hint_project_name">Login API</string>
+    <string name="hint_project_tag">Backend</string>
+    <string name="hint_project_description">What is this project about?</string>
+    <string name="no_attachment_selected">No attachment selected</string>
+    <string name="select_attachment">Select an attachment</string>
+    <string name="add_project">Add Project</string>
+    <string name="save_changes">Save changes</string>
+    <string name="field_name">Project name</string>
+    <string name="field_tag">Project tag</string>
+    <string name="field_description">Project description</string>
+    <string name="error_required">%1$s is required</string>
+    <string name="error_too_long">%1$s must be %2$d characters or fewer</string>
+
+    <!-- Files -->
+    <string name="search_files">Search attachments by display name…</string>
+    <string name="chip_all">All (%1$d)</string>
+    <string name="chip_images">Images (%1$d)</string>
+    <string name="chip_text">Text (%1$d)</string>
+    <string name="showing_attachments">Showing %1$d of %2$d attachments</string>
+    <string name="attachment_meta">%1$s • %2$s • Linked</string>
+    <string name="preview">Preview</string>
+    <string name="remove_attachment">Remove attachment</string>
+    <string name="add_attachment">Add Attachment</string>
+    <string name="no_attachments_yet">No attachments yet</string>
+    <string name="no_attachments_match">No attachments match your search or type</string>
+    <string name="missing_attachment">Missing catalog item</string>
+    <string name="catalog_all_linked">Every catalog item is already linked to this project.</string>
+    <string name="remove_prompt">Type %1$s to confirm removal.</string>
+    <string name="confirm_name_hint">Attachment name</string>
+    <string name="remove">Remove</string>
+    <string name="reset">Reset</string>
+
+    <!-- Discussion -->
+    <string name="coming_soon">Coming Soon</string>
+    <string name="coming_soon_body">Project discussion is not part of this assignment.</string>
+
+    <!-- Shared -->
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="close">Close</string>
+    <string name="add">Add</string>
+    <string name="select">Select</string>
+    <string name="clear">Clear</string>
+    <string name="attachment_icon">Attachment</string>
 </resources>

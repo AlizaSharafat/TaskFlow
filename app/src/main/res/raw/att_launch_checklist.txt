@@ -1,0 +1,21 @@
+LAUNCH CHECKLIST
+
+BEFORE LAUNCH
+   [ ] All placeholder copy replaced
+   [ ] Contact form tested end to end
+   [ ] Form submissions arriving in the shared inbox
+   [ ] Meta description written for the page
+   [ ] Open graph image uploaded
+   [ ] Page tested at 360, 768 and 1440 widths
+   [ ] Colour contrast checked against the brand palette
+   [ ] Broken link scan clean
+
+ON LAUNCH DAY
+   [ ] Redirects from the three retired pages in place
+   [ ] Analytics tag firing
+   [ ] Client notified
+
+AFTER LAUNCH
+   [ ] Check form submissions after 24 hours
+   [ ] Review first week of traffic with the client
+   [ ] Log any defects found in the first week

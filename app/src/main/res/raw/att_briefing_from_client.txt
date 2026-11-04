@@ -1,0 +1,31 @@
+CLIENT BRIEFING: SERVICE PAGE WEBSITE
+
+Prepared for the design team
+Revision 2
+
+1. GOAL
+Build a single service page that explains what the company does and
+converts visitors into enquiries. The page replaces three older pages
+that currently split the same message.
+
+2. AUDIENCE
+Operations managers at mid-sized firms. They skim first and read
+second, so the first screen must carry the whole offer.
+
+3. BRAND DIRECTION
+Primary blue and a warm red accent. Plenty of white space. No stock
+photography of people shaking hands.
+
+4. SECTIONS REQUIRED
+   - Hero with headline, one line of support copy and a single button
+   - Three service cards, each with a price indication
+   - Short proof section with two client quotes
+   - Contact form with name, company, email and message
+
+5. CONSTRAINTS
+   Launch in six weeks. Copy will arrive in week three. Build the
+   layout with placeholder copy until then.
+
+6. OPEN QUESTIONS
+   Do we need a pricing page as well, or do the cards cover it?
+   Who signs off the final copy?

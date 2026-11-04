@@ -1,0 +1,23 @@
+MEETING NOTES
+Weekly design sync
+
+ATTENDEES
+Design, front end, client success.
+
+DECISIONS
+1. The pricing information stays on the service cards. No separate
+   pricing page for launch.
+2. The hero button says Request a quote, not Get started.
+3. Tablet breakpoint is 768px. Below that the cards stack.
+
+ACTIONS
+   - Rebuild the responsive grid for the pricing table
+   - Send the brand guideline to the client for sign off
+   - Collect the product card copy by Friday
+
+RISKS
+Copy is the critical path. If it slips past week four the launch date
+moves with it.
+
+NEXT SYNC
+Same time next week. Bring the tablet breakpoint working in the browser.

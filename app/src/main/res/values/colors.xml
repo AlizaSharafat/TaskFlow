@@ -10,11 +10,21 @@
     <color name="blue">#FF4C8DFF</color>
     <color name="blue_dark">#FF3B74E8</color>
 
+    <color name="success">#FF16A34A</color>
+    <color name="warning">#FFD97706</color>
+    <color name="danger">#FFDC2626</color>
+    <color name="danger_tint">#FFFEE2E2</color>
+
     <color name="tag_background">#FFEDE9FE</color>
     <color name="tag_text">#FF7C3AED</color>
 
-    <color name="input_background">#FFE4E8EC</color>
+    <color name="input_background">#FFEEF1F5</color>
     <color name="divider">#FFE2E8F0</color>
+    <color name="progress_track">#FFE2E8F0</color>
+
+    <color name="thumb_image">#FFE8F0FE</color>
+    <color name="thumb_text">#FFFDF3E2</color>
+    <color name="doc_icon">#FFEA8C00</color>
 
     <color name="splash_background">#FFEDEFE4</color>
     <color name="splash_panel">#FFDCE9EF</color>

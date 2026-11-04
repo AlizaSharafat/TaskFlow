@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.TaskFlow" parent="Theme.AppCompat.Light.NoActionBar">
+    <!--
+        TabLayout is a Material component, so the app theme must descend from a
+        Material theme. An AppCompat parent makes TabLayout crash at inflation.
+    -->
+    <style name="Theme.TaskFlow" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blue_dark</item>
         <item name="colorAccent">@color/blue</item>
-        <item name="android:windowBackground">@color/screen_background</item>
-        <item name="android:statusBarColor">@color/screen_background</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:statusBarColor">@color/white</item>
     </style>
 
     <style name="FieldLabel">
@@ -26,5 +30,44 @@
         <item name="android:textColorHint">@color/ink_soft</item>
         <item name="android:textSize">15sp</item>
         <item name="android:layout_marginBottom">16dp</item>
+    </style>
+
+    <!-- The Status / Priority / Date / Sort dropdowns in the Tasks tab. -->
+    <style name="FilterPill">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_filter_pill</item>
+        <item name="android:paddingStart">14dp</item>
+        <item name="android:paddingEnd">14dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:textColor">@color/ink</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:drawablePadding">4dp</item>
+        <item name="android:drawableEnd">@drawable/ic_chevron_down</item>
+    </style>
+
+    <!-- The All / Images / Text chips in the Files tab. -->
+    <style name="TypeChip">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_chip_selector</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:textColor">@color/chip_text</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="SectionLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/ink_muted</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.08</item>
     </style>
 </resources>
