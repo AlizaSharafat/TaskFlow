@@ -1,27 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/attachmentBackground"
-    android:layout_width="104dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="12dp"
-    android:background="@drawable/bg_attachment_pink"
-    android:orientation="vertical"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/bg_card_white"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
     android:padding="12dp">
 
     <ImageView
-        android:id="@+id/ivAttachmentIcon"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
+        android:id="@+id/ivAttachmentThumb"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:background="@drawable/bg_thumb_image"
         android:contentDescription="@string/attachment_icon"
-        android:src="@drawable/ic_attachment" />
+        android:padding="8dp"
+        android:scaleType="centerCrop" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvAttachmentName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/ink"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvAttachmentMeta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/ink_muted"
+            android:textSize="12sp" />
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/tvAttachmentName"
-        android:layout_width="match_parent"
+        android:id="@+id/btnPreview"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
-        android:ellipsize="end"
-        android:maxLines="2"
+        android:background="@drawable/bg_pill_light"
+        android:paddingStart="14dp"
+        android:paddingTop="7dp"
+        android:paddingEnd="14dp"
+        android:paddingBottom="7dp"
+        android:text="@string/preview"
         android:textColor="@color/ink"
-        android:textSize="11sp" />
+        android:textSize="12sp" />
+
+    <ImageView
+        android:id="@+id/btnRemoveAttachment"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="4dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:contentDescription="@string/remove_attachment"
+        android:padding="8dp"
+        android:src="@drawable/ic_trash" />
 </LinearLayout>
