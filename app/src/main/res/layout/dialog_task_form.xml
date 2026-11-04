@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="22dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvDialogTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:textColor="@color/ink"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etTaskDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_input"
+            android:gravity="top"
+            android:hint="@string/task_description_hint"
+            android:importantForAutofill="no"
+            android:inputType="textMultiLine"
+            android:maxLength="500"
+            android:minLines="4"
+            android:padding="14dp"
+            android:textColor="@color/ink"
+            android:textColorHint="@color/ink_soft"
+            android:textSize="15sp" />
+
+        <!-- Live character counter, updated by a TextWatcher. -->
+        <TextView
+            android:id="@+id/tvCharCounter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="end"
+            android:textColor="@color/ink_muted"
+            android:textSize="12sp" />
+
+        <TextView
+            style="@style/FieldLabel"
+            android:text="@string/label_priority" />
+
+        <TextView
+            android:id="@+id/tvPrioritySelector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_input"
+            android:drawableEnd="@drawable/ic_chevron_down"
+            android:padding="14dp"
+            android:textColor="@color/ink"
+            android:textSize="15sp" />
+
+        <TextView
+            style="@style/FieldLabel"
+            android:text="@string/label_status" />
+
+        <TextView
+            android:id="@+id/tvStatusSelector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_input"
+            android:drawableEnd="@drawable/ic_chevron_down"
+            android:padding="14dp"
+            android:textColor="@color/ink"
+            android:textSize="15sp" />
+
+        <TextView
+            style="@style/FieldLabel"
+            android:text="@string/label_due_date" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvDueDateSelector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_input"
+                android:padding="14dp"
+                android:textColor="@color/ink"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/btnClearDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="10dp"
+                android:text="@string/clear_date"
+                android:textColor="@color/danger"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnDeleteTask"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_pill_light"
+            android:paddingTop="13dp"
+            android:paddingBottom="13dp"
+            android:text="@string/delete"
+            android:textAllCaps="false"
+            android:textColor="@color/danger"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnCancelTask"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_pill_light"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
+                android:text="@string/cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/ink"
+                android:textSize="15sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSaveTask"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_dark"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
