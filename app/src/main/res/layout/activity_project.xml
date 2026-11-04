@@ -1,170 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:fillViewport="true">
+    android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/screen_padding">
+        android:paddingStart="@dimen/screen_padding"
+        android:paddingTop="16dp"
+        android:paddingEnd="@dimen/screen_padding">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp">
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_circle_light"
+            android:contentDescription="@string/back"
+            android:padding="10dp"
+            android:src="@drawable/ic_arrow_back" />
 
-            <ImageButton
-                android:id="@+id/btnBack"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_alignParentStart="true"
-                android:background="@drawable/bg_circle_light"
-                android:contentDescription="@string/back"
-                android:padding="10dp"
-                android:src="@drawable/ic_arrow_back" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:background="@drawable/bg_circle_tag"
-                    android:gravity="center"
-                    android:text="H"
-                    android:textColor="@color/tag_text"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="-8dp"
-                    android:background="@drawable/bg_circle_tag"
-                    android:gravity="center"
-                    android:text="A"
-                    android:textColor="@color/tag_text"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="-8dp"
-                    android:background="@drawable/bg_circle_tag"
-                    android:gravity="center"
-                    android:text="M"
-                    android:textColor="@color/tag_text"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tvInvite"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:background="@drawable/bg_pill_blue"
-                    android:paddingStart="14dp"
-                    android:paddingTop="7dp"
-                    android:paddingEnd="14dp"
-                    android:paddingBottom="7dp"
-                    android:text="@string/invite"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
-            </LinearLayout>
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/tvProjectTag"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/bg_tag_chip"
-            android:paddingStart="10dp"
-            android:paddingTop="5dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="5dp"
-            android:textColor="@color/tag_text"
-            android:textSize="12sp" />
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tvProjectName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:lineSpacingExtra="4dp"
-            android:textColor="@color/ink"
-            android:textSize="26sp"
-            android:textStyle="bold" />
+            <TextView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/bg_circle_tag"
+                android:gravity="center"
+                android:text="JD"
+                android:textColor="@color/tag_text"
+                android:textSize="11sp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tvProjectDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:lineSpacingExtra="4dp"
-            android:textColor="@color/ink_muted"
-            android:textSize="13sp" />
+            <TextView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="-6dp"
+                android:background="@drawable/bg_circle_tag"
+                android:gravity="center"
+                android:text="AL"
+                android:textColor="@color/tag_text"
+                android:textSize="11sp"
+                android:textStyle="bold" />
 
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:scrollbars="none">
-
-            <LinearLayout
-                android:id="@+id/attachmentContainer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" />
-        </HorizontalScrollView>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="26dp">
+            <TextView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="-6dp"
+                android:background="@drawable/bg_circle_tag"
+                android:gravity="center"
+                android:text="MK"
+                android:textColor="@color/tag_text"
+                android:textSize="11sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:text="@string/todays_task"
-                android:textColor="@color/ink"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/btnAddTask"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
+                android:layout_marginStart="10dp"
                 android:background="@drawable/bg_pill_blue"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
-                android:paddingStart="16dp"
-                android:paddingTop="9dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="9dp"
-                android:text="@string/add_task"
-                android:textAllCaps="false"
+                android:paddingStart="14dp"
+                android:paddingTop="7dp"
+                android:paddingEnd="14dp"
+                android:paddingBottom="7dp"
+                android:text="@string/invite"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
-        </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/taskListContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical"
-            android:paddingBottom="24dp" />
-    </LinearLayout>
-</ScrollView>
+    <TextView
+        android:id="@+id/tvProjectTag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/screen_padding"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/bg_tag_chip"
+        android:paddingStart="10dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="4dp"
+        android:textColor="@color/tag_text"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/tvProjectName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/screen_padding"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="@dimen/screen_padding"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@color/ink"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <!-- Scrollable tabs so four labels with counts never get clipped. -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@color/white"
+        app:tabIndicatorColor="@color/blue"
+        app:tabIndicatorHeight="3dp"
+        app:tabMode="scrollable"
+        app:tabPaddingEnd="14dp"
+        app:tabPaddingStart="14dp"
+        app:tabSelectedTextColor="@color/blue"
+        app:tabTextColor="@color/ink_soft" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider" />
+
+    <FrameLayout
+        android:id="@+id/tabContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/screen_background" />
+</LinearLayout>
