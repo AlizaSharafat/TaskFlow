@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/screen_padding">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp">
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_alignParentStart="true"
+                android:background="@drawable/bg_circle_light"
+                android:contentDescription="@string/back"
+                android:padding="10dp"
+                android:src="@drawable/ic_arrow_back" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/bg_circle_tag"
+                    android:gravity="center"
+                    android:text="H"
+                    android:textColor="@color/tag_text"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="-8dp"
+                    android:background="@drawable/bg_circle_tag"
+                    android:gravity="center"
+                    android:text="A"
+                    android:textColor="@color/tag_text"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="-8dp"
+                    android:background="@drawable/bg_circle_tag"
+                    android:gravity="center"
+                    android:text="M"
+                    android:textColor="@color/tag_text"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvInvite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/bg_pill_blue"
+                    android:paddingStart="14dp"
+                    android:paddingTop="7dp"
+                    android:paddingEnd="14dp"
+                    android:paddingBottom="7dp"
+                    android:text="@string/invite"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tvProjectTag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bg_tag_chip"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"
+            android:textColor="@color/tag_text"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvProjectName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:lineSpacingExtra="4dp"
+            android:textColor="@color/ink"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvProjectDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:lineSpacingExtra="4dp"
+            android:textColor="@color/ink_muted"
+            android:textSize="13sp" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/attachmentContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:text="@string/todays_task"
+                android:textColor="@color/ink"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnAddTask"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/bg_pill_blue"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingStart="16dp"
+                android:paddingTop="9dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="9dp"
+                android:text="@string/add_task"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/taskListContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:paddingBottom="24dp" />
+    </LinearLayout>
+</ScrollView>

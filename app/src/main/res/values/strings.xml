@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TaskFlow</string>
+
+    <!-- Splash -->
+    <string name="splash_headline">Management of a project will be easier if it is done well</string>
+    <string name="get_started">Get Started</string>
+
+    <!-- Home -->
+    <string name="welcome_title">Hi, %1$s</string>
+    <string name="welcome_subtitle">Are you ready to get back to work?</string>
+    <string name="workspace_label">Workspace</string>
+    <string name="workspace_created">Created : %1$s</string>
+    <string name="new_project">New Project</string>
+    <string name="upcoming">UPCOMING</string>
+    <string name="invite">Invite</string>
+    <string name="task_progress">%1$d/%2$d</string>
+    <string name="attachment_count">%1$d Attachment</string>
+    <string name="comment_count">%1$d Comment</string>
+
+    <!-- New project dialog -->
+    <string name="label_project_name">Project Name</string>
+    <string name="label_project_tag">Project Tag</string>
+    <string name="label_attachment">Attachment</string>
+    <string name="label_project_description">Project Description</string>
+    <string name="hint_project_name">Login api</string>
+    <string name="hint_project_tag">Backend</string>
+    <string name="hint_attachment">Add file or photo</string>
+    <string name="hint_project_description">What is this project about?</string>
+    <string name="add_project">Add Project</string>
+    <string name="error_name_required">Project name is required</string>
+    <string name="error_tag_required">Project tag is required</string>
+
+    <!-- Project screen -->
+    <string name="back">Back</string>
+    <string name="todays_task">Today\'s Task</string>
+    <string name="add_task">Add Task</string>
+    <string name="attachment_icon">Attachment</string>
+
+    <!-- Add task dialog -->
+    <string name="add_new_task">Add New Task</string>
+    <string name="hint_task_description">Describe the task (max 500 characters)</string>
+    <string name="save_task">Save Task</string>
+    <string name="error_task_required">Task description is required</string>
+    <string name="error_task_too_long">Maximum %1$d characters allowed</string>
+</resources>
