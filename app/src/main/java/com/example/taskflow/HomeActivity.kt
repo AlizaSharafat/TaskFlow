@@ -3,56 +3,79 @@ package com.example.taskflow
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.LinearLayout
+import android.widget.ListView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.example.taskflow.model.Attachment
+import com.example.taskflow.adapter.ProjectAdapter
+import com.example.taskflow.dialog.ProjectFormDialog
+import com.example.taskflow.model.AttachmentLink
 import com.example.taskflow.model.Project
-import com.example.taskflow.model.TaskItem
+import com.example.taskflow.model.SampleData
+
 
 class HomeActivity : AppCompatActivity() {
 
-    private val projects = mutableListOf<Project>()
 
+    private val projects: MutableList<Project> = SampleData.projects()
 
-    private lateinit var projectListContainer: LinearLayout
+    private lateinit var adapter: ProjectAdapter
+    private lateinit var listView: ListView
+    private lateinit var etSearch: EditText
+    private lateinit var tvShowing: TextView
+    private lateinit var tvEmpty: TextView
+
+    private var searchText: String = ""
 
     private val projectDetailLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode != Activity.RESULT_OK) return@registerForActivityResult
-        val data = result.data ?: return@registerForActivityResult
+        val updated = result.data?.serializableExtra(IntentKeys.EXTRA_PROJECT, Project::class.java)
+            ?: return@registerForActivityResult
 
-        val updatedProject = data.serializableExtra(IntentKeys.EXTRA_PROJECT, Project::class.java)
-        val position = data.getIntExtra(IntentKeys.EXTRA_PROJECT_POSITION, -1)
-
-        if (updatedProject != null && position in projects.indices) {
-            projects[position] = updatedProject
-            renderProjectList()
+        val index = projects.indexOfFirst { it.id == updated.id }
+        if (index >= 0) {
+            projects[index] = updated
         }
+        refreshList()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        projectListContainer = findViewById(R.id.projectListContainer)
+        listView = findViewById(R.id.listProjects)
+        etSearch = findViewById(R.id.etSearchProjects)
+        tvShowing = findViewById(R.id.tvShowingProjects)
+        tvEmpty = findViewById(R.id.tvNoProjects)
 
         showWorkspaceDetailsFromIntent()
 
-        findViewById<Button>(R.id.btnNewProject).setOnClickListener {
-            showNewProjectDialog()
+        adapter = ProjectAdapter(this, emptyList())
+        listView.adapter = adapter
+
+        listView.setOnItemClickListener { _, _, position, _ ->
+            openProjectScreen(adapter.getItem(position))
         }
 
-        loadStartingProjects()
-        renderProjectList()
+        findViewById<Button>(R.id.btnNewProject).setOnClickListener { showNewProjectDialog() }
+
+        etSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) = Unit
+            override fun onTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) = Unit
+            override fun afterTextChanged(s: Editable?) {
+                searchText = s.toString()
+                refreshList()
+            }
+        })
+
+        refreshList()
     }
 
     private fun showWorkspaceDetailsFromIntent() {
@@ -66,115 +89,48 @@ class HomeActivity : AppCompatActivity() {
             getString(R.string.workspace_created, workspaceDate)
     }
 
-
-    private fun loadStartingProjects() {
-        projects.add(
-            Project(
-                tag = "User Interface",
-                name = "Service Page Website",
-                description = "Make a page display about services for websites company with blue and red colors",
-                attachments = mutableListOf(
-                    Attachment("sports-projectv2.fig", 0),
-                    Attachment("briefing from client.pdf", 1),
-                    Attachment("mount asset", 2)
-                ),
-                tasks = mutableListOf(
-                    TaskItem(description = "Create brand guideline for website design", isDone = true),
-                    TaskItem(description = "Create low fidelity service page website")
-                ),
-                commentCount = 10
-            )
-        )
-    }
-
-    private fun renderProjectList() {
-        projectListContainer.removeAllViews()
-        val inflater = LayoutInflater.from(this)
-
-        projects.forEachIndexed { position, project ->
-            val card = inflater.inflate(R.layout.item_project, projectListContainer, false)
-
-            card.findViewById<TextView>(R.id.tvProjectTag).text = project.tag
-            card.findViewById<TextView>(R.id.tvProjectName).text = project.name
-            card.findViewById<TextView>(R.id.tvProjectDescription).text = project.description
-
-            card.findViewById<TextView>(R.id.tvTaskProgress).text = getString(
-                R.string.task_progress,
-                project.doneTaskCount(),
-                project.totalTaskCount()
-            )
-            card.findViewById<TextView>(R.id.tvAttachmentCount).text =
-                getString(R.string.attachment_count, project.attachments.size)
-            card.findViewById<TextView>(R.id.tvCommentCount).text =
-                getString(R.string.comment_count, project.commentCount)
-
-            card.setOnClickListener { openProjectScreen(project, position) }
-
-            projectListContainer.addView(card)
+    /** Search is case-insensitive and matches any part of the name or the tag. */
+    private fun visibleProjects(): List<Project> {
+        val needle = searchText.trim().lowercase()
+        if (needle.isEmpty()) return projects
+        return projects.filter {
+            it.name.lowercase().contains(needle) || it.tag.lowercase().contains(needle)
         }
     }
 
-    private fun openProjectScreen(project: Project, position: Int) {
-        val intent = Intent(this, ProjectActivity::class.java).apply {
-            putExtra(IntentKeys.EXTRA_PROJECT, project)
-            putExtra(IntentKeys.EXTRA_PROJECT_POSITION, position)
+    private fun refreshList() {
+        val shown = visibleProjects()
+        adapter.submit(shown)
+
+        tvShowing.text = if (searchText.trim().isEmpty()) {
+            resources.getQuantityString(R.plurals.showing_projects, shown.size, shown.size)
+        } else {
+            getString(R.string.showing_of_projects, shown.size, projects.size)
         }
+
+        tvEmpty.text = if (projects.isEmpty()) {
+            getString(R.string.no_projects_yet)
+        } else {
+            getString(R.string.no_projects_match)
+        }
+        tvEmpty.visibility = if (shown.isEmpty()) View.VISIBLE else View.GONE
+    }
+
+    private fun openProjectScreen(project: Project) {
+        val intent = Intent(this, ProjectActivity::class.java)
+        intent.putExtra(IntentKeys.EXTRA_PROJECT, project)
         projectDetailLauncher.launch(intent)
     }
 
+
     private fun showNewProjectDialog() {
-        val dialogView: View =
-            LayoutInflater.from(this).inflate(R.layout.dialog_new_project, null)
-
-        val etName = dialogView.findViewById<EditText>(R.id.etProjectName)
-        val etTag = dialogView.findViewById<EditText>(R.id.etProjectTag)
-        val etAttachment = dialogView.findViewById<EditText>(R.id.etAttachment)
-        val etDescription = dialogView.findViewById<EditText>(R.id.etProjectDescription)
-        val btnAddProject = dialogView.findViewById<Button>(R.id.btnAddProject)
-        val btnremove = dialogView.findViewById<Button>(R.id.btnClearAll)
-
-        btnremove.setOnClickListener {
-            Toast.makeText(this, "Remove all pressed",Toast.LENGTH_SHORT).show()
-        }
-
-        val dialog = AlertDialog.Builder(this)
-            .setView(dialogView)
-            .create()
-        dialog.window?.setBackgroundDrawableResource(R.drawable.bg_dialog)
-
-        btnAddProject.setOnClickListener {
-            val name = etName.text.toString().trim()
-            val tag = etTag.text.toString().trim()
-            val description = etDescription.text.toString().trim()
-
-            if (name.isEmpty()) {
-                etName.error = getString(R.string.error_name_required)
-                return@setOnClickListener
+        ProjectFormDialog.show(this, null) { name, tag, description, catalogId ->
+            val project = Project(tag = tag, name = name, description = description)
+            if (catalogId != null) {
+                project.attachments.add(AttachmentLink(catalogId = catalogId))
             }
-            if (tag.isEmpty()) {
-                etTag.error = getString(R.string.error_tag_required)
-                return@setOnClickListener
-            }
-
-            projects.add(
-                Project(
-                    tag = tag,
-                    name = name,
-                    description = description,
-                    attachments = buildAttachments(etAttachment.text.toString())
-                )
-            )
-            renderProjectList()
-            dialog.dismiss()
+            projects.add(project)
+            refreshList()
         }
-
-        dialog.show()
     }
-
-    private fun buildAttachments(rawInput: String): MutableList<Attachment> =
-        rawInput.split(",")
-            .map { it.trim() }
-            .filter { it.isNotEmpty() }
-            .mapIndexed { index, fileName -> Attachment(fileName, index % 3) }
-            .toMutableList()
 }

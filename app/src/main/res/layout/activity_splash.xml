@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<!-- RelativeLayout is used here to satisfy the "Relative layout" learning outcome. -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/splash_background"
     android:padding="@dimen/screen_padding">
 
+    <!-- Illustration panel. Replace this block with your exported Figma image if you like. -->
     <LinearLayout
         android:id="@+id/illustrationPanel"
         android:layout_width="match_parent"
@@ -84,7 +85,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnGetStarted"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
