@@ -57,6 +57,7 @@
     <string name="no_tasks_yet">No tasks yet</string>
     <string name="no_tasks_match">No tasks match these filters</string>
     <string name="overdue_badge">OVERDUE</string>
+    <string name="task_meta">%1$s • %2$s • %3$s</string>
     <string name="no_due_date">No due date</string>
     <string name="due_today">Due today</string>
 
@@ -87,6 +88,7 @@
     <string name="hint_project_description">What is this project about?</string>
     <string name="no_attachment_selected">No attachment selected</string>
     <string name="select_attachment">Select an attachment</string>
+    <string name="catalog_row">%1$s  •  %2$s</string>
     <string name="add_project">Add Project</string>
     <string name="save_changes">Save changes</string>
     <string name="field_name">Project name</string>

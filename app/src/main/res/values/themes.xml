@@ -4,14 +4,13 @@
         TabLayout is a Material component, so the app theme must descend from a
         Material theme. An AppCompat parent makes TabLayout crash at inflation.
     -->
-
     <style name="Theme.TaskFlow" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blue_dark</item>
         <item name="colorAccent">@color/blue</item>
         <item name="android:windowBackground">@color/white</item>
-        <item name="android:windowLightStatusBar">true</item>
         <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="FieldLabel">
@@ -72,5 +71,4 @@
         <item name="android:textStyle">bold</item>
         <item name="android:letterSpacing">0.08</item>
     </style>
-
 </resources>
