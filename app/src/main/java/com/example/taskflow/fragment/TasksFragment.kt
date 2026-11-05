@@ -140,7 +140,7 @@ class TasksFragment : Fragment(), ProjectTab {
     }
 
     override fun refreshTab() {
-        if (!isAdded) return
+        if (view == null) return
         val project = host.project()
         val query = host.taskQuery()
         val shown = query.apply(project.tasks)

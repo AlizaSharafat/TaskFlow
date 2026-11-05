@@ -105,7 +105,7 @@ class FilesFragment : Fragment(), ProjectTab {
     }
 
     override fun refreshTab() {
-        if (!isAdded) return
+        if (view == null) return
         val project = host.project()
         val query = host.fileQuery()
         val shown = query.apply(project.attachments)
