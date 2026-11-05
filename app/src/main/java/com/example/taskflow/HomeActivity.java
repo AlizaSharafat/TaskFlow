@@ -25,15 +25,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * The project list.
- *
- * This Activity owns the full project collection. Everything else works on a
- * copy that travels by Intent and comes back through the activity result.
- */
+
 public class HomeActivity extends AppCompatActivity {
 
-    /** The one true collection. Nothing else keeps a second copy. */
+
     private final List<Project> projects = SampleData.projects();
 
     private ProjectAdapter adapter;
@@ -44,11 +39,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private String searchText = "";
 
-    /**
-     * Receives the edited project back from ProjectActivity and updates the
-     * collection by ID. Row position is never used: the list can be filtered
-     * by a search, so a position would point at the wrong project.
-     */
+
     private final ActivityResultLauncher<Intent> projectDetailLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                     result -> {
@@ -110,7 +101,6 @@ public class HomeActivity extends AppCompatActivity {
         refreshList();
     }
 
-    /** Reads the sample values SplashActivity put on the Intent. */
     private void showWorkspaceDetailsFromIntent() {
         String userName = getIntent().getStringExtra(IntentKeys.EXTRA_USER_NAME);
         String workspaceName = getIntent().getStringExtra(IntentKeys.EXTRA_WORKSPACE_NAME);
@@ -127,7 +117,6 @@ public class HomeActivity extends AppCompatActivity {
         return value == null ? "" : value;
     }
 
-    /** Search is case-insensitive and matches any part of the name or the tag. */
     private List<Project> visibleProjects() {
         String needle = searchText.trim().toLowerCase(Locale.getDefault());
         if (needle.isEmpty()) {
@@ -162,17 +151,13 @@ public class HomeActivity extends AppCompatActivity {
         tvEmpty.setVisibility(shown.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
-    /** Hands the whole project object to the detail screen through the Intent. */
     private void openProjectScreen(Project project) {
         Intent intent = new Intent(this, ProjectActivity.class);
         intent.putExtra(IntentKeys.EXTRA_PROJECT, project);
         projectDetailLauncher.launch(intent);
     }
 
-    /**
-     * A new project starts empty: no tasks, no comments, 0/0 and 0%. It gets
-     * one attachment only if the user picked one in the dialog.
-     */
+
     private void showNewProjectDialog() {
         ProjectFormDialog.show(this, null, (name, tag, description, catalogId) -> {
             Project project = new Project(tag, name, description);

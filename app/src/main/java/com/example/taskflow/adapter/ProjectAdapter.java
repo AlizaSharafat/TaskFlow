@@ -14,12 +14,7 @@ import com.example.taskflow.model.Project;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Feeds the project ListView on the Home screen.
- *
- * A BaseAdapter is used rather than ArrayAdapter because every row binds eight
- * different views, and the ViewHolder keeps findViewById out of the scroll.
- */
+
 public class ProjectAdapter extends BaseAdapter {
 
     private final Context context;

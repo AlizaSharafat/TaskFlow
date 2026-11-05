@@ -22,12 +22,7 @@ import com.example.taskflow.util.Menus;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * The Add Task and Edit Task form.
- *
- * Overview and Tasks both open this same dialog, which is why it lives in its
- * own class rather than inside either fragment.
- */
+
 public final class TaskFormDialog {
 
     public static final int DESCRIPTION_MAX = 500;
@@ -126,7 +121,6 @@ public final class TaskFormDialog {
         });
 
         tvDueDate.setOnClickListener(v -> {
-            // Past dates are allowed, so no minimum is set on the picker.
             long seed = dueDate[0] == null ? DateUtils.todayStart() : dueDate[0];
             new DatePickerDialog(
                     context,

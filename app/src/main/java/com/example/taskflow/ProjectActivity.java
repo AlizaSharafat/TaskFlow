@@ -25,13 +25,7 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Hosts the four project tabs.
- *
- * It holds one working Project and the live filter state for Tasks and Files,
- * so switching tabs never loses a search and no fragment keeps its own copy
- * of the data.
- */
+
 public class ProjectActivity extends AppCompatActivity implements ProjectHost {
 
     private static final String[] TAB_TITLES = {"Overview", "Tasks", "Files", "Discussion"};
@@ -171,10 +165,7 @@ public class ProjectActivity extends AppCompatActivity implements ProjectHost {
         return fileQuery;
     }
 
-    /**
-     * Something changed inside a fragment. Repaint everything that shows a
-     * number derived from the project, then let the visible tab redraw.
-     */
+
     @Override
     public void onProjectChanged() {
         paintHeader();
@@ -223,7 +214,6 @@ public class ProjectActivity extends AppCompatActivity implements ProjectHost {
         }
     }
 
-    /** Task Breakdown on Overview jumps here, with the filter already set. */
     @Override
     public void openTasksFiltered(TaskStatus status, DateFilter date) {
         taskQuery.setStatus(status);
@@ -231,10 +221,7 @@ public class ProjectActivity extends AppCompatActivity implements ProjectHost {
         showTab(1);
     }
 
-    /**
-     * Hands the edited project back to HomeActivity, which finds it by ID.
-     * Nothing is appended and no second HomeActivity is created.
-     */
+
     private void returnUpdatedProject() {
         Intent data = new Intent();
         data.putExtra(IntentKeys.EXTRA_PROJECT, workingProject);

@@ -1,6 +1,6 @@
 package com.example.taskflow.model;
 
-/** Type choices in the Files tab. */
+
 public enum FileTypeFilter {
 
     ALL("All"),

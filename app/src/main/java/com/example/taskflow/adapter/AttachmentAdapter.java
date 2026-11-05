@@ -17,12 +17,6 @@ import com.example.taskflow.model.CatalogItem;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Feeds the attachment ListView in the Files tab.
- *
- * Image rows show a real thumbnail of the linked drawable, text rows show a
- * document icon. Preview and remove are separate click targets on the row.
- */
 public class AttachmentAdapter extends BaseAdapter {
 
     public interface OnPreview {

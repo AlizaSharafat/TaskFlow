@@ -31,10 +31,7 @@ import com.example.taskflow.util.DateUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * The summary tab: description, progress, task breakdown and quick links.
- * Every number here is derived from the task records, never stored.
- */
+
 public class OverviewFragment extends Fragment implements ProjectTab {
 
     private ProjectHost host;
@@ -108,7 +105,7 @@ public class OverviewFragment extends Fragment implements ProjectTab {
 
     @Override
     public void refreshTab() {
-        // getView() is null until onCreateView has run, so the views may not exist yet.
+
         if (getView() == null) {
             return;
         }
@@ -134,7 +131,6 @@ public class OverviewFragment extends Fragment implements ProjectTab {
         }
     }
 
-    /** The first couple of attachment names, for the quick link subtitle. */
     private String firstTwoNames(Project project) {
         List<String> names = new ArrayList<>();
         for (AttachmentLink link : project.getAttachments()) {
@@ -149,7 +145,6 @@ public class OverviewFragment extends Fragment implements ProjectTab {
         return android.text.TextUtils.join(", ", names);
     }
 
-    /** Same validation as New Project, with the current values prefilled. */
     private void showEditProject() {
         final Project project = host.getProject();
         ProjectFormDialog.show(requireContext(), project,
@@ -161,7 +156,6 @@ public class OverviewFragment extends Fragment implements ProjectTab {
                 });
     }
 
-    /** The same dialog the Tasks tab uses. After saving we stay on Overview. */
     private void showAddTask() {
         TaskFormDialog.show(requireContext(), null,
                 (description, status, priority, dueDate) -> {

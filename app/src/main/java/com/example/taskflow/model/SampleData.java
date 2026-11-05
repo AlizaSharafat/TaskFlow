@@ -5,12 +5,6 @@ import com.example.taskflow.util.DateUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * The projects the app starts with.
- *
- * Due dates are built relative to today rather than hard coded, so the
- * Overdue and Due today examples stay correct whenever the app is run.
- */
 public final class SampleData {
 
     private SampleData() {
@@ -27,7 +21,6 @@ public final class SampleData {
         return projects;
     }
 
-    /** The main sample project: 12 tasks, 4 done, 2 overdue, 3 attachments. */
     private static Project servicePageWebsite() {
         Project project = new Project(
                 "User Interface",
@@ -57,7 +50,6 @@ public final class SampleData {
         return project;
     }
 
-    /** 10 tasks, 3 done. */
     private static Project loginApi() {
         Project project = new Project(
                 "Backend",
@@ -83,7 +75,6 @@ public final class SampleData {
         return project;
     }
 
-    /** 8 tasks, 2 done. */
     private static Project mobileDashboard() {
         Project project = new Project(
                 "Frontend",
@@ -106,7 +97,7 @@ public final class SampleData {
         return project;
     }
 
-    /** 4 tasks, all done, so this one shows 100%. */
+
     private static Project releaseChecklist() {
         Project project = new Project(
                 "QA & Ops",
@@ -125,7 +116,6 @@ public final class SampleData {
         return project;
     }
 
-    /** No tasks and no attachments, so the empty states can be demonstrated. */
     private static Project designAssets() {
         return new Project(
                 "Design",
@@ -133,7 +123,6 @@ public final class SampleData {
                 "Vector icons and illustration library for landing pages.");
     }
 
-    /** daysFromToday is null for a task with no due date. */
     private static TaskItem task(String description, TaskStatus status,
                                  TaskPriority priority, Integer daysFromToday) {
         Long dueDate = daysFromToday == null ? null : DateUtils.daysFromToday(daysFromToday);

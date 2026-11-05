@@ -33,10 +33,7 @@ import com.example.taskflow.model.Project;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * The attachment list, with a name search and an All / Images / Text filter.
- * Attachments stay in the order they were linked.
- */
+
 public class FilesFragment extends Fragment implements ProjectTab {
 
     private ProjectHost host;
@@ -206,7 +203,6 @@ public class FilesFragment extends Fragment implements ProjectTab {
         });
     }
 
-    /** Removing asks the user to type the attachment name first. */
     private void confirmRemove(final AttachmentLink link) {
         CatalogItem item = AttachmentCatalog.find(link.getCatalogId());
         if (item == null) {

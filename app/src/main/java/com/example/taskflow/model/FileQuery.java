@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-/** The live search and type state of the Files tab, owned by ProjectActivity. */
 public class FileQuery {
 
     private String search = "";
@@ -31,7 +30,6 @@ public class FileQuery {
         this.type = type;
     }
 
-    /** Keeps link-insertion order, filters by display name and by type. */
     public List<AttachmentLink> apply(List<AttachmentLink> links) {
         String needle = search.trim().toLowerCase(Locale.getDefault());
         List<AttachmentLink> kept = new ArrayList<>();

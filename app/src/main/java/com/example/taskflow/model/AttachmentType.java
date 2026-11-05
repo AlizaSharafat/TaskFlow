@@ -1,6 +1,5 @@
 package com.example.taskflow.model;
 
-/** What kind of content a catalog item holds. */
 public enum AttachmentType {
 
     IMAGE("Image"),

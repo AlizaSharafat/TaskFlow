@@ -1,6 +1,5 @@
 package com.example.taskflow.model;
 
-/** Sort choices in the Tasks tab. */
 public enum TaskSort {
 
     DUE_ASC("Due date (earliest)"),

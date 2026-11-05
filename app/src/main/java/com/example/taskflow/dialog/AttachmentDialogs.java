@@ -25,7 +25,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.List;
 
-/** The three attachment flows: pick from the catalog, preview, and remove. */
+/** three attachment flows; catalog, preview, and remove. */
 public final class AttachmentDialogs {
 
     private AttachmentDialogs() {
@@ -40,10 +40,6 @@ public final class AttachmentDialogs {
         void onConfirmed();
     }
 
-    /**
-     * Single-choice list of catalog items this project has not linked yet.
-     * Add stays disabled until something eligible is selected.
-     */
     public static void showCatalogPicker(Context context, Project project, OnPicked onPicked) {
         final List<CatalogItem> choices = AttachmentCatalog.unlinkedFor(project);
 
@@ -83,10 +79,6 @@ public final class AttachmentDialogs {
         dialog.show();
     }
 
-    /**
-     * Shows the real content: the bitmap for an image, the file's text for a
-     * document. An icon or a Toast would not count as a preview.
-     */
     public static void showPreview(Context context, CatalogItem item) {
         if (item.getType() == AttachmentType.IMAGE) {
             View view = LayoutInflater.from(context).inflate(R.layout.dialog_preview_image, null);
@@ -114,10 +106,6 @@ public final class AttachmentDialogs {
         dialog.show();
     }
 
-    /**
-     * Removing is confirmed by typing the attachment's display name, so it
-     * cannot happen by a stray tap.
-     */
     public static void showRemoveConfirm(Context context, final CatalogItem item,
                                          final OnConfirmed onConfirmed) {
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_remove_attachment, null);
@@ -160,7 +148,6 @@ public final class AttachmentDialogs {
         dialog.show();
     }
 
-    /** Reads a bundled text document out of res/raw. */
     private static String readRawText(Context context, int rawRes) {
         StringBuilder builder = new StringBuilder();
         InputStream stream = context.getResources().openRawResource(rawRes);

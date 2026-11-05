@@ -6,12 +6,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-/**
- * The opening screen.
- *
- * The user name and workspace are sent forward with the Intent rather than
- * being hard coded inside HomeActivity.
- */
+
 public class SplashActivity extends AppCompatActivity {
 
     @Override

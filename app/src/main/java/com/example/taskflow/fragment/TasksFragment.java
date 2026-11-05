@@ -34,12 +34,7 @@ import com.example.taskflow.util.Menus;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * The task list with search, three filters and a sort.
- *
- * The query lives in ProjectActivity, not here, which is how the tab keeps
- * its filters when the user switches away and comes back.
- */
+
 public class TasksFragment extends Fragment implements ProjectTab {
 
     private ProjectHost host;
@@ -56,7 +51,7 @@ public class TasksFragment extends Fragment implements ProjectTab {
     private TextView tvEmptyTitle;
     private Button btnEmptyAction;
 
-    /** Stops the search box from re-filtering while we are writing into it. */
+
     private boolean bindingSearch = false;
 
     public static TasksFragment newInstance(String projectId) {
@@ -216,10 +211,7 @@ public class TasksFragment extends Fragment implements ProjectTab {
         paintEmptyState(project.getTasks().isEmpty(), shown.isEmpty());
     }
 
-    /**
-     * Two different empty states: a project with no tasks at all, and a
-     * project whose tasks are all filtered out.
-     */
+
     private void paintEmptyState(boolean noTasksAtAll, boolean nothingShown) {
         if (!nothingShown) {
             emptyBox.setVisibility(View.GONE);
@@ -253,7 +245,7 @@ public class TasksFragment extends Fragment implements ProjectTab {
                 null);
     }
 
-    /** The editor shows the full description, not the two-line row preview. */
+
     private void showEditTask(final TaskItem task) {
         TaskFormDialog.show(requireContext(), task,
                 (description, status, priority, dueDate) -> {

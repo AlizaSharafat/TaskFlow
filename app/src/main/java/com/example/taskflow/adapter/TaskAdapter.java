@@ -18,15 +18,8 @@ import com.example.taskflow.util.DateUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Feeds the task ListView in the Tasks tab.
- *
- * The checkbox listener is detached before binding and reattached afterwards,
- * otherwise recycling a row would fire the listener of the previous task.
- */
 public class TaskAdapter extends BaseAdapter {
 
-    /** Java has no function type, so the callback is a small interface. */
     public interface OnToggleDone {
         void onToggled(TaskItem task, boolean isChecked);
     }
@@ -108,7 +101,6 @@ public class TaskAdapter extends BaseAdapter {
         return view;
     }
 
-    /** Builds "To do, High, Due today" style supporting text for a row. */
     private String buildMeta(TaskItem task) {
         String dueLabel;
         if (task.getDueDate() == null) {

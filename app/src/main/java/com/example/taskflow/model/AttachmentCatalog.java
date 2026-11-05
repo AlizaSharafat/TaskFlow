@@ -6,12 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * The fixed catalog every project links its attachments from.
- *
- * A project stores only the catalog id, so the same file can be linked by
- * several projects without copying any bytes around.
- */
+
 public final class AttachmentCatalog {
 
     private static final List<CatalogItem> ITEMS = buildItems();
@@ -52,7 +47,7 @@ public final class AttachmentCatalog {
         return null;
     }
 
-    /** Catalog items this project has not linked yet, in catalog order. */
+
     public static List<CatalogItem> unlinkedFor(Project project) {
         List<CatalogItem> available = new ArrayList<>();
         for (CatalogItem item : ITEMS) {

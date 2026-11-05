@@ -16,10 +16,7 @@ import com.example.taskflow.model.Project;
 
 import java.util.List;
 
-/**
- * The New Project and Edit Project forms. Both use the same layout and the
- * same validation; editing prefills the fields and hides the attachment row.
- */
+
 public final class ProjectFormDialog {
 
     public static final int NAME_MAX = 60;
@@ -30,7 +27,7 @@ public final class ProjectFormDialog {
         // Utility class, never instantiated.
     }
 
-    /** Reports the trimmed values, plus a catalog id when one was picked. */
+
     public interface OnSaved {
         void onSaved(String name, String tag, String description, String catalogId);
     }
@@ -121,7 +118,6 @@ public final class ProjectFormDialog {
         dialog.show();
     }
 
-    /** One rule for all three fields: 1 to max characters after trimming. */
     private static boolean validate(Context context, EditText field, String value,
                                     int max, int fieldNameRes) {
         String fieldName = context.getString(fieldNameRes);

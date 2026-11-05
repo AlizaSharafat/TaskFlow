@@ -7,12 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * The live search, filter and sort state of the Tasks tab.
- *
- * ProjectActivity owns one of these, which is how the tab keeps its filters
- * when the user switches away and comes back during the same visit.
- */
+
 public class TaskQuery {
 
     private String search = "";

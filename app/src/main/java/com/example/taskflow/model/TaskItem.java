@@ -3,12 +3,7 @@ package com.example.taskflow.model;
 import java.io.Serializable;
 import java.util.UUID;
 
-/**
- * One task inside a project.
- *
- * dueDate holds the first millisecond of the due day, or null when the task
- * has no due date. createdAt lets tasks be sorted by when they were added.
- */
+
 public class TaskItem implements Serializable {
 
     private final String id;
@@ -28,7 +23,6 @@ public class TaskItem implements Serializable {
         this.dueDate = dueDate;
     }
 
-    /** A new task defaults to To do, Normal and no due date. */
     public TaskItem(String description) {
         this(description, TaskStatus.TODO, TaskPriority.NORMAL, null);
     }
@@ -77,7 +71,7 @@ public class TaskItem implements Serializable {
         return status == TaskStatus.DONE;
     }
 
-    /** Overdue means the due day is before today AND the task is not finished. */
+
     public boolean isOverdue(long todayStart) {
         if (dueDate == null) {
             return false;

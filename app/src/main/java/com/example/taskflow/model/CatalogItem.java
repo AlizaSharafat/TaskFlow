@@ -1,11 +1,6 @@
 package com.example.taskflow.model;
 
-/**
- * One item in the shared attachment catalog.
- *
- * Images point at a drawable resource, text documents at a raw resource.
- * Exactly one of the two is set, decided by the type.
- */
+
 public class CatalogItem {
 
     private final String id;

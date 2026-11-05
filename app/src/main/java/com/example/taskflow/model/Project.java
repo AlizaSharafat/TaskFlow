@@ -5,13 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * A project and everything inside it.
- *
- * This whole object travels between Activities inside an Intent, which is why
- * it implements Serializable. Every count below is derived from the task list
- * rather than stored, so the numbers can never drift out of step.
- */
 public class Project implements Serializable {
 
     private final String id;
@@ -103,7 +96,6 @@ public class Project implements Serializable {
         return total;
     }
 
-    /** Overdue is a subset of the unfinished tasks, never added to the other counts. */
     public int getOverdueCount(long todayStart) {
         int total = 0;
         for (TaskItem task : tasks) {
@@ -118,7 +110,6 @@ public class Project implements Serializable {
         return attachments.size();
     }
 
-    /** Done divided by total as a whole number. An empty project is 0%. */
     public int getProgressPercent() {
         if (tasks.isEmpty()) {
             return 0;
@@ -135,7 +126,6 @@ public class Project implements Serializable {
         return null;
     }
 
-    /** Removes a task by id. Never by description, because duplicates are allowed. */
     public boolean removeTaskById(String taskId) {
         for (int i = 0; i < tasks.size(); i++) {
             if (tasks.get(i).getId().equals(taskId)) {
@@ -146,7 +136,6 @@ public class Project implements Serializable {
         return false;
     }
 
-    /** Removes an attachment link by its own id, not by catalog id. */
     public boolean removeAttachmentById(String linkId) {
         for (int i = 0; i < attachments.size(); i++) {
             if (attachments.get(i).getId().equals(linkId)) {

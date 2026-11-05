@@ -13,7 +13,6 @@ import com.example.taskflow.IntentKeys;
 import com.example.taskflow.ProjectTab;
 import com.example.taskflow.R;
 
-/** A placeholder tab. The assignment asks only for a Coming Soon message. */
 public class DiscussionFragment extends Fragment implements ProjectTab {
 
     public static DiscussionFragment newInstance(String projectId) {

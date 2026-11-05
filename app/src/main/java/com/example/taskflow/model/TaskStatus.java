@@ -1,6 +1,5 @@
 package com.example.taskflow.model;
 
-/** Work state of a task. The three values always sum to the task total. */
 public enum TaskStatus {
 
     TODO("To do"),

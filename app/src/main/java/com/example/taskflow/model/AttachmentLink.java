@@ -3,10 +3,7 @@ package com.example.taskflow.model;
 import java.io.Serializable;
 import java.util.UUID;
 
-/**
- * Links a project to one item in the attachment catalog.
- * Only the catalog id travels, never the image bytes.
- */
+
 public class AttachmentLink implements Serializable {
 
     private final String id;
