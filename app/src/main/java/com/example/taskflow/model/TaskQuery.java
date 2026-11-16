@@ -7,7 +7,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-
+/**
+ * The live search, filter and sort state of the Tasks tab.
+ *
+ * ProjectActivity owns one of these, which is how the tab keeps its filters
+ * when the user switches away and comes back during the same visit.
+ */
 public class TaskQuery {
 
     private String search = "";
@@ -73,6 +78,34 @@ public class TaskQuery {
         return priority == null ? "All" : priority.getLabel();
     }
 
+    /**
+     * Splits an already filtered list into the four fixed sections and turns it
+     * into the flat list of header and task rows the RecyclerView draws.
+     *
+     * The order of the sections is fixed by TaskGroup. A section with no tasks
+     * left after searching or filtering contributes nothing at all, so its
+     * header never appears.
+     */
+    public static List<TaskRow> group(List<TaskItem> tasks, long todayStart) {
+        List<TaskRow> rows = new ArrayList<>();
+        for (TaskGroup group : TaskGroup.values()) {
+            List<TaskItem> members = new ArrayList<>();
+            for (TaskItem task : tasks) {
+                if (TaskGroup.of(task, todayStart) == group) {
+                    members.add(task);
+                }
+            }
+            if (members.isEmpty()) {
+                continue;
+            }
+            rows.add(TaskRow.header(group, members.size()));
+            for (TaskItem task : members) {
+                rows.add(TaskRow.task(group, task, todayStart));
+            }
+        }
+        return rows;
+    }
+
     /** A task is kept only when it satisfies the search and every filter. */
     public List<TaskItem> apply(List<TaskItem> tasks) {
         long todayStart = DateUtils.todayStart();
@@ -128,6 +161,8 @@ public class TaskQuery {
             case RECENT:
                 Collections.sort(rows, (a, b) -> Long.compare(b.getCreatedAt(), a.getCreatedAt()));
                 break;
+            // MANUAL deliberately does nothing: the rows stay in the order the
+            // project holds them, which is the order dragging produced.
             default:
                 break;
         }
