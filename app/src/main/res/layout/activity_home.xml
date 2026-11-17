@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<!--
+    The RecyclerView is NOT inside a ScrollView. The welcome, workspace and
+    search controls sit above it at their natural height, and the list takes
+    the rest of the screen with layout_weight and scrolls on its own.
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -151,18 +155,20 @@
         android:layout_weight="1"
         android:background="@color/screen_background">
 
-        <ListView
-            android:id="@+id/listProjects"
+        <!--
+            clipToPadding="false" lets rows scroll through the padding instead
+            of being cut off at it, so the first and last cards keep their gap.
+        -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvProjects"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:divider="@null"
-            android:dividerHeight="0dp"
             android:paddingStart="@dimen/screen_padding"
             android:paddingTop="14dp"
             android:paddingEnd="@dimen/screen_padding"
             android:paddingBottom="14dp"
-            android:scrollbarStyle="outsideOverlay" />
+            android:scrollbars="vertical" />
 
         <TextView
             android:id="@+id/tvNoProjects"

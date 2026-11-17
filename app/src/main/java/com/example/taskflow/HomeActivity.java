@@ -8,12 +8,13 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskflow.adapter.ProjectAdapter;
 import com.example.taskflow.dialog.ProjectFormDialog;
@@ -25,21 +26,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-
+/**
+ * The project list.
+ *
+ * This Activity owns the full project collection. Everything else works on a
+ * copy that travels by Intent and comes back through the activity result.
+ */
 public class HomeActivity extends AppCompatActivity {
 
-
+    /** The one true collection. Nothing else keeps a second copy. */
     private final List<Project> projects = SampleData.projects();
 
     private ProjectAdapter adapter;
-    private ListView listView;
+    private RecyclerView recyclerView;
     private EditText etSearch;
     private TextView tvShowing;
     private TextView tvEmpty;
 
     private String searchText = "";
 
-
+    /**
+     * Receives the edited project back from ProjectActivity and updates the
+     * collection by ID. Row position is never used: the list can be filtered
+     * by a search, so a position would point at the wrong project.
+     */
     private final ActivityResultLauncher<Intent> projectDetailLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                     result -> {
@@ -65,17 +75,24 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        listView = findViewById(R.id.listProjects);
+        recyclerView = findViewById(R.id.rvProjects);
         etSearch = findViewById(R.id.etSearchProjects);
         tvShowing = findViewById(R.id.tvShowingProjects);
         tvEmpty = findViewById(R.id.tvNoProjects);
 
         showWorkspaceDetailsFromIntent();
 
-        adapter = new ProjectAdapter(this, new ArrayList<>());
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(
-                (parent, view, position, id) -> openProjectScreen(adapter.getItem(position)));
+        // A RecyclerView has no built-in idea of how to arrange its rows, so a
+        // layout manager has to be given. LinearLayoutManager stacks them
+        // vertically, which is what a ListView used to do on its own.
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
+
+        // The row click lives in the adapter now: a RecyclerView has no
+        // setOnItemClickListener, because it does not assume its children are
+        // simple rows at all.
+        adapter = new ProjectAdapter(this::openProjectScreen);
+        recyclerView.setAdapter(adapter);
 
         Button btnNewProject = findViewById(R.id.btnNewProject);
         btnNewProject.setOnClickListener(v -> showNewProjectDialog());
@@ -101,6 +118,7 @@ public class HomeActivity extends AppCompatActivity {
         refreshList();
     }
 
+    /** Reads the sample values SplashActivity put on the Intent. */
     private void showWorkspaceDetailsFromIntent() {
         String userName = getIntent().getStringExtra(IntentKeys.EXTRA_USER_NAME);
         String workspaceName = getIntent().getStringExtra(IntentKeys.EXTRA_WORKSPACE_NAME);
@@ -117,6 +135,7 @@ public class HomeActivity extends AppCompatActivity {
         return value == null ? "" : value;
     }
 
+    /** Search is case-insensitive and matches any part of the name or the tag. */
     private List<Project> visibleProjects() {
         String needle = searchText.trim().toLowerCase(Locale.getDefault());
         if (needle.isEmpty()) {
@@ -135,7 +154,11 @@ public class HomeActivity extends AppCompatActivity {
 
     private void refreshList() {
         List<Project> shown = visibleProjects();
-        adapter.submit(shown);
+
+        // A brand new list every time. ListAdapter compares the list it was
+        // given last with the one it is being given now, so handing it the
+        // same object twice would look like nothing had changed at all.
+        adapter.submitList(new ArrayList<>(shown));
 
         if (searchText.trim().isEmpty()) {
             tvShowing.setText(getResources()
@@ -151,13 +174,17 @@ public class HomeActivity extends AppCompatActivity {
         tvEmpty.setVisibility(shown.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
+    /** Hands the whole project object to the detail screen through the Intent. */
     private void openProjectScreen(Project project) {
         Intent intent = new Intent(this, ProjectActivity.class);
         intent.putExtra(IntentKeys.EXTRA_PROJECT, project);
         projectDetailLauncher.launch(intent);
     }
 
-
+    /**
+     * A new project starts empty: no tasks, no comments, 0/0 and 0%. It gets
+     * one attachment only if the user picked one in the dialog.
+     */
     private void showNewProjectDialog() {
         ProjectFormDialog.show(this, null, (name, tag, description, catalogId) -> {
             Project project = new Project(tag, name, description);
