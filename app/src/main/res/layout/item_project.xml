@@ -28,7 +28,6 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
-    <!-- Requirement 1b: at most two lines of description in the row. -->
     <TextView
         android:id="@+id/tvProjectDescription"
         android:layout_width="match_parent"
