@@ -9,12 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskflow.IntentKeys;
 import com.example.taskflow.ProjectHost;
@@ -29,12 +31,21 @@ import com.example.taskflow.model.CatalogItem;
 import com.example.taskflow.model.FileQuery;
 import com.example.taskflow.model.FileTypeFilter;
 import com.example.taskflow.model.Project;
+import com.example.taskflow.touch.AttachmentTouchCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class FilesFragment extends Fragment implements ProjectTab {
+/**
+ * The attachment list, with a name search and an All / Images / Text filter.
+ *
+ * Attachments stay in the order they were linked, so the RecyclerView here has
+ * no drag. A swipe to the right asks to remove one, and the answer is the same
+ * typed-name confirmation the bin icon has always used: a swipe is easier to
+ * do by accident than a tap, so it cannot be allowed to be quicker.
+ */
+public class FilesFragment extends Fragment
+        implements ProjectTab, AttachmentTouchCallback.Listener {
 
     private ProjectHost host;
     private AttachmentAdapter adapter;
@@ -44,7 +55,7 @@ public class FilesFragment extends Fragment implements ProjectTab {
     private TextView chipImages;
     private TextView chipText;
     private TextView tvShowing;
-    private ListView listView;
+    private RecyclerView recyclerView;
     private View emptyBox;
     private TextView tvEmptyTitle;
     private Button btnEmptyAction;
@@ -81,20 +92,28 @@ public class FilesFragment extends Fragment implements ProjectTab {
         chipImages = view.findViewById(R.id.chipImages);
         chipText = view.findViewById(R.id.chipText);
         tvShowing = view.findViewById(R.id.tvShowingFiles);
-        listView = view.findViewById(R.id.listFiles);
+        recyclerView = view.findViewById(R.id.rvFiles);
         emptyBox = view.findViewById(R.id.emptyFiles);
         tvEmptyTitle = view.findViewById(R.id.tvEmptyFilesTitle);
         btnEmptyAction = view.findViewById(R.id.btnEmptyFilesAction);
 
-        adapter = new AttachmentAdapter(requireContext(), new ArrayList<>(),
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        recyclerView.setHasFixedSize(true);
+
+        adapter = new AttachmentAdapter(
                 link -> {
                     CatalogItem item = AttachmentCatalog.find(link.getCatalogId());
                     if (item != null) {
                         AttachmentDialogs.showPreview(requireContext(), item);
                     }
                 },
-                this::confirmRemove);
-        listView.setAdapter(adapter);
+                // The bin icon asks the same question a swipe does, but no row
+                // was moved, so there is nothing to restore afterwards.
+                link -> confirmRemove(RecyclerView.NO_POSITION, link));
+        recyclerView.setAdapter(adapter);
+
+        new ItemTouchHelper(new AttachmentTouchCallback(requireContext(), adapter, this))
+                .attachToRecyclerView(recyclerView);
 
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -141,7 +160,8 @@ public class FilesFragment extends Fragment implements ProjectTab {
         FileQuery query = host.getFileQuery();
         List<AttachmentLink> shown = query.apply(project.getAttachments());
 
-        adapter.submit(shown);
+        // A new list every time, so DiffUtil has an old and a new to compare.
+        adapter.submitList(new ArrayList<>(shown));
 
         bindingSearch = true;
         if (!etSearch.getText().toString().equals(query.getSearch())) {
@@ -173,14 +193,53 @@ public class FilesFragment extends Fragment implements ProjectTab {
         paintEmptyState(total == 0, shown.isEmpty());
     }
 
+    // ---- Swipe ----
+
+    @Override
+    public void onRemoveSwipe(int position, AttachmentLink link) {
+        confirmRemove(position, link);
+    }
+
+    /**
+     * Removing asks the user to type the attachment name first. Nothing is
+     * unlinked until the typed name matches and Remove is pressed, and any
+     * other ending puts a swiped row back where it was.
+     */
+    private void confirmRemove(final int position, final AttachmentLink link) {
+        CatalogItem item = AttachmentCatalog.find(link.getCatalogId());
+        if (item == null) {
+            restoreRow(position);
+            return;
+        }
+        AttachmentDialogs.showRemoveConfirm(requireContext(), item,
+                () -> {
+                    host.getProject().removeAttachmentById(link.getId());
+                    host.onProjectChanged();
+                },
+                removed -> {
+                    if (!removed) {
+                        restoreRow(position);
+                    }
+                });
+    }
+
+    /** Slides a swiped row back into place by rebinding it. */
+    private void restoreRow(int position) {
+        if (adapter != null && position >= 0 && position < adapter.getItemCount()) {
+            adapter.notifyItemChanged(position);
+        }
+    }
+
+    // ---- Empty states ----
+
     private void paintEmptyState(boolean noAttachmentsAtAll, boolean nothingShown) {
         if (!nothingShown) {
             emptyBox.setVisibility(View.GONE);
-            listView.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.VISIBLE);
             return;
         }
         emptyBox.setVisibility(View.VISIBLE);
-        listView.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
 
         if (noAttachmentsAtAll) {
             tvEmptyTitle.setText(R.string.no_attachments_yet);
@@ -199,17 +258,6 @@ public class FilesFragment extends Fragment implements ProjectTab {
     private void showCatalog() {
         AttachmentDialogs.showCatalogPicker(requireContext(), host.getProject(), item -> {
             host.getProject().getAttachments().add(new AttachmentLink(item.getId()));
-            host.onProjectChanged();
-        });
-    }
-
-    private void confirmRemove(final AttachmentLink link) {
-        CatalogItem item = AttachmentCatalog.find(link.getCatalogId());
-        if (item == null) {
-            return;
-        }
-        AttachmentDialogs.showRemoveConfirm(requireContext(), item, () -> {
-            host.getProject().removeAttachmentById(link.getId());
             host.onProjectChanged();
         });
     }

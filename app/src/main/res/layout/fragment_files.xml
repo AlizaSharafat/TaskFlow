@@ -80,14 +80,13 @@
         android:layout_marginTop="8dp"
         android:layout_weight="1">
 
-        <ListView
-            android:id="@+id/listFiles"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvFiles"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:divider="@null"
-            android:dividerHeight="0dp"
-            android:paddingBottom="8dp" />
+            android:paddingBottom="8dp"
+            android:scrollbars="vertical" />
 
         <LinearLayout
             android:id="@+id/emptyFiles"
