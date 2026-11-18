@@ -9,12 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskflow.IntentKeys;
 import com.example.taskflow.ProjectHost;
@@ -27,15 +31,28 @@ import com.example.taskflow.model.Project;
 import com.example.taskflow.model.TaskItem;
 import com.example.taskflow.model.TaskPriority;
 import com.example.taskflow.model.TaskQuery;
+import com.example.taskflow.model.TaskRow;
 import com.example.taskflow.model.TaskSort;
 import com.example.taskflow.model.TaskStatus;
+import com.example.taskflow.touch.TaskTouchCallback;
+import com.example.taskflow.util.DateUtils;
 import com.example.taskflow.util.Menus;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class TasksFragment extends Fragment implements ProjectTab {
+/**
+ * The task list: search, three filters, a sort, and the grouped RecyclerView.
+ *
+ * One RecyclerView holds the whole screen. The four sections are not four
+ * lists, they are header rows mixed into the same list, which is what lets a
+ * task swiped to the left travel from its old group to Done without anything
+ * being moved between adapters.
+ *
+ * The query lives in ProjectActivity rather than here, which is how the tab
+ * keeps its filters when the user switches away and comes back.
+ */
+public class TasksFragment extends Fragment implements ProjectTab, TaskTouchCallback.Listener {
 
     private ProjectHost host;
     private TaskAdapter adapter;
@@ -46,12 +63,12 @@ public class TasksFragment extends Fragment implements ProjectTab {
     private TextView tvDate;
     private TextView tvSort;
     private TextView tvShowing;
-    private ListView listView;
+    private RecyclerView recyclerView;
     private View emptyBox;
     private TextView tvEmptyTitle;
     private Button btnEmptyAction;
 
-
+    /** Stops the search box from re-filtering while we are writing into it. */
     private boolean bindingSearch = false;
 
     public static TasksFragment newInstance(String projectId) {
@@ -85,19 +102,27 @@ public class TasksFragment extends Fragment implements ProjectTab {
         tvDate = view.findViewById(R.id.filterDate);
         tvSort = view.findViewById(R.id.filterSort);
         tvShowing = view.findViewById(R.id.tvShowingTasks);
-        listView = view.findViewById(R.id.listTasks);
+        recyclerView = view.findViewById(R.id.rvTasks);
         emptyBox = view.findViewById(R.id.emptyTasks);
         tvEmptyTitle = view.findViewById(R.id.tvEmptyTasksTitle);
         btnEmptyAction = view.findViewById(R.id.btnEmptyTasksAction);
 
-        adapter = new TaskAdapter(requireContext(), new ArrayList<>(), (task, isChecked) -> {
-            // Ticking the box sets the task to Done, clearing it sends it back To do.
-            task.setStatus(isChecked ? TaskStatus.DONE : TaskStatus.TODO);
-            host.onProjectChanged();
-        });
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(
-                (parent, v, position, id) -> showEditTask(adapter.getItem(position)));
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        recyclerView.setHasFixedSize(true);
+
+        adapter = new TaskAdapter(requireContext(),
+                (task, isChecked) -> {
+                    // Ticking the box sets the task Done, clearing it sends it back To do.
+                    task.setStatus(isChecked ? TaskStatus.DONE : TaskStatus.TODO);
+                    host.onProjectChanged();
+                },
+                this::showEditTask);
+        recyclerView.setAdapter(adapter);
+
+        // ItemTouchHelper is what turns finger movement on a row into a swipe
+        // or a drag. The rules for which rows allow what live in the callback.
+        new ItemTouchHelper(new TaskTouchCallback(requireContext(), adapter, this))
+                .attachToRecyclerView(recyclerView);
 
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -189,9 +214,12 @@ public class TasksFragment extends Fragment implements ProjectTab {
         }
         Project project = host.getProject();
         TaskQuery query = host.getTaskQuery();
-        List<TaskItem> shown = query.apply(project.getTasks());
 
-        adapter.submit(shown);
+        // Filter and sort first, then split what survives into sections. A
+        // group that lost all of its tasks contributes no header at all.
+        List<TaskItem> shown = query.apply(project.getTasks());
+        List<TaskRow> rows = TaskQuery.group(shown, DateUtils.todayStart());
+        adapter.submit(rows);
 
         // Write the query back into the controls, because Overview can change it.
         bindingSearch = true;
@@ -211,15 +239,89 @@ public class TasksFragment extends Fragment implements ProjectTab {
         paintEmptyState(project.getTasks().isEmpty(), shown.isEmpty());
     }
 
+    // ---- Swipe and drag ----
 
+    /**
+     * Swiped left. The row is put back first, because the task is moving to
+     * another section rather than disappearing, and a row left translated off
+     * the edge would stay there.
+     */
+    @Override
+    public void onCompleteSwipe(int position, TaskItem task) {
+        restoreRow(position);
+
+        if (task.isDone()) {
+            // Already finished: nothing to change, and nothing is duplicated.
+            Toast.makeText(requireContext(), R.string.task_already_done,
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        task.setStatus(TaskStatus.DONE);
+        host.onProjectChanged();
+    }
+
+    /** Swiped right. Nothing is removed until the dialog says so. */
+    @Override
+    public void onDeleteSwipe(final int position, final TaskItem task) {
+        final boolean[] deleted = {false};
+
+        AlertDialog dialog = new AlertDialog.Builder(requireContext())
+                .setTitle(R.string.delete_task)
+                .setMessage(getString(R.string.delete_task_confirm, task.getDescription()))
+                .setPositiveButton(R.string.delete, (d, which) -> {
+                    deleted[0] = true;
+                    host.getProject().removeTaskById(task.getId());
+                    host.onProjectChanged();
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .create();
+
+        // Cancel, the back button and a tap outside all land here, so the row
+        // is restored once for every way of saying no.
+        dialog.setOnDismissListener(d -> {
+            if (!deleted[0]) {
+                restoreRow(position);
+            }
+        });
+        dialog.show();
+    }
+
+    @Override
+    public void onTaskMoved(TaskItem moving, TaskItem target) {
+        host.getProject().moveTask(moving.getId(), target.getId());
+    }
+
+    @Override
+    public void onDragFinished() {
+        // A hand-made order and an automatic sort cannot both be in charge of
+        // the same list, so dropping a row switches the sort to Manual. The
+        // pill says so, and Reset filters puts the automatic sort back.
+        host.getTaskQuery().setSort(TaskSort.MANUAL);
+        host.onProjectChanged();
+    }
+
+    /** Slides a swiped row back into place by rebinding it. */
+    private void restoreRow(int position) {
+        if (adapter != null && position >= 0 && position < adapter.getItemCount()) {
+            adapter.notifyItemChanged(position);
+        }
+    }
+
+    // ---- Empty states ----
+
+    /**
+     * Two different empty states: a project with no tasks at all, and a project
+     * whose tasks are all filtered out.
+     */
     private void paintEmptyState(boolean noTasksAtAll, boolean nothingShown) {
         if (!nothingShown) {
             emptyBox.setVisibility(View.GONE);
-            listView.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.VISIBLE);
             return;
         }
         emptyBox.setVisibility(View.VISIBLE);
-        listView.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
 
         if (noTasksAtAll) {
             tvEmptyTitle.setText(R.string.no_tasks_yet);
@@ -245,7 +347,7 @@ public class TasksFragment extends Fragment implements ProjectTab {
                 null);
     }
 
-
+    /** The editor shows the full description, not the two-line row preview. */
     private void showEditTask(final TaskItem task) {
         TaskFormDialog.show(requireContext(), task,
                 (description, status, priority, dueDate) -> {
