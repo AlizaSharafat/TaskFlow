@@ -1,5 +1,6 @@
 package com.example.taskflow.model;
 
+/** How urgent a task is. Declared high to low so ordinal() can sort them. */
 public enum TaskPriority {
 
     HIGH("High"),

@@ -1,5 +1,6 @@
 package com.example.taskflow.model;
 
+/** Date choices in the Tasks tab. */
 public enum DateFilter {
 
     ALL("All dates"),
